@@ -13,6 +13,27 @@ to or from any **Ashiva** webpage running **Da3SH** modules.
 
 ______
 
+## How do `updatePageComponents` Directives work?
+
+In **Ashiva**, you can add or remove modules on a given page (or stylesheet, or scriptsheet) using the **queryString Parameter**:
+
+`updatePageComponents`
+
+The **queryString Parameter** `updatePageComponents` has a percent-encoded JSON value, which, when decoded, looks like:
+
+{
+  "replaceModules": [],   // [OPTIONAL]
+
+  "removeModules": [],    // [OPTIONAL]
+
+  "addModules": [],       // [OPTIONAL]
+
+  "customOrder": {"Styles": false, "Scripts": false}  // [OPTIONAL]	// <= either value, if omitted, defaults to false
+}
+
+
+______
+
 ## Complete Example of `updatePageComponents`
 
 ```
