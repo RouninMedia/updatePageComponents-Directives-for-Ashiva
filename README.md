@@ -1,7 +1,7 @@
 # updatePageComponents Directives for Ashiva
 Ashiva **updatePageComponents** Directives are a powerful tool enabling the switching on and off of Styles, Scripts or any other **Da3SH Component** on any web page in only a couple of keystrokes and without ever leaving the browser.
 
-The visitor may manually edit the **updatePageComponents** Directives in any URL's `queryString` to add or remove _main_ or _modular_
+The visitor may manually edit the **updatePageComponents** Directives in any URL's `queryString` to add or remove _Main_ or _Modular_
 
  - `styles`
  - `scripts`
