@@ -3,11 +3,11 @@ Ashiva **updatePageComponents** Directives are a powerful tool enabling the swit
 
 The visitor may manually edit the **updatePageComponents** Directives in any URL's `queryString` to add or remove _main_ or _modular_
 
- - styles
- - scripts
- - markup
- - vectors
- - data etc.
+ - `styles`
+ - `scripts`
+ - `markup`
+ - `vectors`
+ - `data` etc.
 
 to or from any **Ashiva** webpage running **Da3SH** modules.
 
