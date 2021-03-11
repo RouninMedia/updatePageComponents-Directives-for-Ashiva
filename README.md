@@ -21,6 +21,7 @@ In **Ashiva**, you can switch components on and off on a given page using the **
 
 The **queryString Parameter** `updatePageComponents` has a percent-encoded JSON value, which, when decoded, looks like:
 
+```
 {
   "Main": {},           // [OPTIONAL]
 
@@ -30,6 +31,7 @@ The **queryString Parameter** `updatePageComponents` has a percent-encoded JSON 
 
   "Module_Name_2": {}   // [OPTIONAL]
 }
+```
 
 
 ______
