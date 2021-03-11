@@ -15,20 +15,20 @@ ______
 
 ## How do `updatePageComponents` Directives work?
 
-In **Ashiva**, you can add or remove modules on a given page (or stylesheet, or scriptsheet) using the **queryString Parameter**:
+In **Ashiva**, you can switch components on and off on a given page using the **queryString Parameter**:
 
 `updatePageComponents`
 
 The **queryString Parameter** `updatePageComponents` has a percent-encoded JSON value, which, when decoded, looks like:
 
 {
-  "replaceModules": [],   // [OPTIONAL]
+  "Main": {},           // [OPTIONAL]
 
-  "removeModules": [],    // [OPTIONAL]
+  "Modules": {},        // [OPTIONAL]
 
-  "addModules": [],       // [OPTIONAL]
+  "Module_Name_1": {},  // [OPTIONAL]
 
-  "customOrder": {"Styles": false, "Scripts": false}  // [OPTIONAL]	// <= either value, if omitted, defaults to false
+  "Module_Name_2": {}   // [OPTIONAL]
 }
 
 
