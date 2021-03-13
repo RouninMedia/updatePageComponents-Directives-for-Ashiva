@@ -33,6 +33,16 @@ The **queryString Parameter** `updatePageComponents` has a percent-encoded JSON 
 }
 ```
 
+The first and second optional parameters (`Main` & `Modules`) each take the following format:
+ 
+```
+{
+  "Styles": true,   // [OPTIONAL]
+  "Scripts": true,  // [OPTIONAL]
+  "ESModules": true   // [OPTIONAL]
+}                                      						
+```
+
 
 ______
 
