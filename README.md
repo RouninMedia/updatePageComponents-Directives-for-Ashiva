@@ -94,7 +94,7 @@ ______
 
 ## Where can updatePageComponents Directives be added?
 
-The **updatePageComponents** queryString Parameter may only be added to the **Page URL**:
+The **updatePageComponents** queryString Parameter may *only* be added to the **Page URL**:
 
 `example.com/my-page/?updatePageComponents=%7B%7D`
 
@@ -105,23 +105,11 @@ To add to `/my-page/` simply add the **updatePageComponents** queryString Parame
 
 _______
 
-## Examples of `updatePageModules` Values
+## Example of `updatePageComponents` Values
 
-**updatePageModules:** *{"replaceModules":[{"Publisher":"Scotia_Beauty","Module":"SB_Email_Subscribers"}]}*
+**updatePageComponents:** *{"Main": {"Styles": true, "Scripts": true, "ESModules": true}, "Modules": {"Styles": true, "Scripts": true, "ESModules": true}}*
 
-`?updatePageModules=%7B%22replaceModules%22%3A%5B%7B%22Publisher%22%3A%22Scotia_Beauty%22%2C%22Module%22%3A%22SB_Email_Subscribers%22%7D%5D%7D`
-
-**updatePageModules:** *{"addModules":[{"Publisher":"Scotia_Beauty","Module":"SB_Email_Subscribers"}]}*
-
-`?updatePageModules=%7B%22addModules%22%3A%5B%7B%22Publisher%22%3A%22Scotia_Beauty%22%2C%22Module%22%3A%22SB_Email_Subscribers%22%7D%5D%7D`
-
-**updatePageModules:** *{"removeModules":[{"Publisher":"Scotia_Beauty","Module":"SB_Translations"}]}*
-
-`?updatePageModules=%7B%22removeModules%22%3A%5B%7B%22Publisher%22%3A%22Scotia_Beauty%22%2C%22Module%22%3A%22SB_Translations%22%7D%5D%7D`
-
-**updatePageModules:** *{"removeModules":[{"Publisher":"Scotia_Beauty","Module":"SB_Notice::Brexit"}],"addModules":[{"Publisher":"Scotia_Beauty","Module":"SB_Email_Subscribers"}]}*
-
-`?updatePageModules=%7B%22removeModules%22%3A%5B%7B%22Publisher%22%3A%22Scotia_Beauty%22%2C%22Module%22%3A%22SB_Notice%3A%3ABrexit%22%7D%5D%2C%22addModules%22%3A%5B%7B%22Publisher%22%3A%22Scotia_Beauty%22%%2C%22Module%22%3A%22SB_Email_Subscribers%227D%5D%7D`
+`?updatePageComponents=%7B%22Main%22%3A%7B%22Styles%22%3Atrue%2C%22Scripts%22%3Atrue%2C%22ESModules%22%3Atrue%7D%2C%22Modules%22%3A%7B%22Styles%22%3Atrue%2C%22Scripts%22%3Atrue%2C%22ESModules%22%3Atrue%7D%7D`
 
 ______
 
