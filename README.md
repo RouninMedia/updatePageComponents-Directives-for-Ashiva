@@ -43,7 +43,8 @@ ______
   "Main": {
   
     "Styles": true,
-    "Scripts": true
+    "Scripts": true,
+    "ESModules": true
   },
 
   "Modules" {
