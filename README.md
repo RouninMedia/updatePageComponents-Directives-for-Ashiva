@@ -90,3 +90,194 @@ ______
   }
 }
 ```
+______
+
+## Where can updatePageComponents Directives be added?
+
+The **updatePageComponents** queryString Parameter may only be added to the **Page URL**:
+
+`example.com/my-page/?updatePageComponents=%7B%7D`
+
+To add to `/my-page/` simply add the **updatePageComponents** queryString Parameter:
+ 
+   - to the end of a link
+   - to the end of the URL in the browser URL bar
+
+_______
+
+## Examples of `updatePageModules` Values
+
+**updatePageModules:** *{"replaceModules":[{"Publisher":"Scotia_Beauty","Module":"SB_Email_Subscribers"}]}*
+
+`?updatePageModules=%7B%22replaceModules%22%3A%5B%7B%22Publisher%22%3A%22Scotia_Beauty%22%2C%22Module%22%3A%22SB_Email_Subscribers%22%7D%5D%7D`
+
+**updatePageModules:** *{"addModules":[{"Publisher":"Scotia_Beauty","Module":"SB_Email_Subscribers"}]}*
+
+`?updatePageModules=%7B%22addModules%22%3A%5B%7B%22Publisher%22%3A%22Scotia_Beauty%22%2C%22Module%22%3A%22SB_Email_Subscribers%22%7D%5D%7D`
+
+**updatePageModules:** *{"removeModules":[{"Publisher":"Scotia_Beauty","Module":"SB_Translations"}]}*
+
+`?updatePageModules=%7B%22removeModules%22%3A%5B%7B%22Publisher%22%3A%22Scotia_Beauty%22%2C%22Module%22%3A%22SB_Translations%22%7D%5D%7D`
+
+**updatePageModules:** *{"removeModules":[{"Publisher":"Scotia_Beauty","Module":"SB_Notice::Brexit"}],"addModules":[{"Publisher":"Scotia_Beauty","Module":"SB_Email_Subscribers"}]}*
+
+`?updatePageModules=%7B%22removeModules%22%3A%5B%7B%22Publisher%22%3A%22Scotia_Beauty%22%2C%22Module%22%3A%22SB_Notice%3A%3ABrexit%22%7D%5D%2C%22addModules%22%3A%5B%7B%22Publisher%22%3A%22Scotia_Beauty%22%%2C%22Module%22%3A%22SB_Email_Subscribers%227D%5D%7D`
+
+______
+
+## `updatePageModules` Directives :: Functions in Core
+
+### `replaceModules()`
+
+```php
+function replaceModules($Asset, $replacementModules, $Module_List) {
+
+  $Module_List = [];
+  
+  for ($i = 0; $i < count($replacementModules); $i++) {
+      
+    if ((isset($replacementModules[$i][$Asset]['apply'])) && ($replacementModules[$i][$Asset]['apply'] === FALSE)) continue;
+
+    $Module_List[] = $replacementModules[$i];
+  }
+  
+  return $Module_List;
+}
+```
+
+### `addModules()`
+
+```php
+function addModules($Asset, $modulesToAdd, $Module_List) {
+  
+  for ($i = 0; $i < count($modulesToAdd); $i++) {
+      
+    if ((isset($modulesToAdd[$i][$Asset]['apply'])) && ($modulesToAdd[$i][$Asset]['apply'] === FALSE)) continue;
+
+    if (isset($modulesToAdd[$i][$Asset]['insert'])) {
+
+      if (is_string($modulesToAdd[$i][$Asset]['insert'])) {
+
+        switch ($modulesToAdd[$i][$Asset]['insert']) {
+
+          case ('first') : array_unshift($Module_List, $modulesToAdd[$i]); break;
+
+          case ('last') : array_push($Module_List, $modulesToAdd[$i]); break;
+        }
+      }
+
+      elseif (is_array($modulesToAdd[$i][$Asset]['insert'])) {
+
+        $insertPosition = count($Module_List);
+
+        for ($j = 0; $j < count($Module_List); $j++) {
+
+          if ($Module_List[$j]['Module'] === array_values($modulesToAdd[$i][$Asset]['insert'])[0]) {
+
+            switch (array_keys($modulesToAdd[$i][$Asset]['insert'])[0]) {
+
+              case ('before') : $insertPosition = $j; break;
+
+              case ('after') : $insertPosition = ($j + 1); break;
+            }
+
+            break;
+          }
+        }
+
+        array_splice($Module_List, $insertPosition, 0, [$modulesToAdd[$i]]);
+      }
+    }
+
+    else {
+    
+      $Module_List[] = $modulesToAdd[$i];
+    }
+  }
+  
+  return $Module_List;
+}
+```
+
+### `removeModules()`
+
+```php
+function removeModules($Asset, $modulesToRemove, $Module_List) {
+  
+  for ($i = 0; $i < count($modulesToRemove); $i++) {
+      
+    $Module_Name = $modulesToRemove[$i]['Module'];
+    $Module_Publisher = $modulesToRemove[$i]['Publisher'];
+    if ((isset($modulesToRemove[$i][$Asset]['apply'])) && ($modulesToRemove[$i][$Asset]['apply'] === FALSE)) continue;
+    
+    for ($j = (count($Module_List) - 1); ($j + 1) > 0; $j--) {
+        
+      if ($Module_List[$j]['Module'] !== $Module_Name) continue;
+      if ($Module_List[$j]['Publisher'] !== $Module_Publisher) continue;
+      
+      unset($Module_List[$j]);
+    }
+    
+    $Module_List = array_values($Module_List);
+  }
+  
+  return $Module_List;
+}
+```
+
+______
+
+
+## `updatePageModules` Directives :: Processor in Module Stylesheet / Module Scriptsheet
+
+```php
+
+$Module_List = $PageManifest['Ashiva_Page_Build']['Modules'];
+
+// echo '/*'."\n\n".'PAGE MODULE LIST:'."\n\n".json_encode($Module_List, JSON_PRETTY_PRINT)."\n\n";
+
+if (isset($_GET['updatePageModules'])) {
+  
+  parse_str(parse_url($_SERVER['REQUEST_URI'])['query'], $Query_String_Array);
+  $updatePageModules = $Query_String_Array['updatePageModules'];
+  $updatePageModulesArray = json_decode($updatePageModules, TRUE);
+
+
+  $Update_Page_Modules_Directives = ['replaceModules', 'addModules', 'removeModules'];
+
+  for ($i = 0; $i < count($Update_Page_Modules_Directives); $i++) {
+
+    $Directive = $Update_Page_Modules_Directives[$i];
+    $Directive_Data = $updatePageModulesArray[$Directive];
+
+    if (isset($Directive_Data)) {
+
+      $Module_List = $Directive('Scripts', $Directive_Data, $Module_List);
+
+      if ($Directive === 'replaceModules') break;
+    }
+  }
+
+  if ((isset($updatePageModulesArray['customOrder']['Scripts'])) && ($updatePageModulesArray['customOrder']['Scripts'] === TRUE)) {
+
+    $Module_List = array_values($Module_List);
+  }
+
+  else {
+
+    foreach ($Module_List as $Index => $Module_Data) {
+    
+      $Publisher_Order[$Index]  = $Module_Data['Publisher'];
+      $Module_Order[$Index] = $Module_Data['Module'];
+    }
+
+    array_multisort($Publisher_Order, SORT_ASC, $Module_Order, SORT_ASC, $Module_List);
+  }
+}
+
+// echo 'FINAL MODULE LIST:'."\n\n".json_encode($Module_List, JSON_PRETTY_PRINT)."\n\n".'*/'."\n\n";
+
+
+${$Page.'::Modules'} = getModules($Module_List);
+
+```
