@@ -33,13 +33,24 @@ The **queryString Parameter** `updatePageComponents` has a percent-encoded JSON 
 }
 ```
 
-The first and second optional parameters (`Main` & `Modules`) each take the following format:
+The first and second optional entries (`Main` & `Modules`) each take the following format:
  
 ```
 {
   "Styles": true,   // [OPTIONAL]
   "Scripts": true,  // [OPTIONAL]
   "ESModules": true   // [OPTIONAL]
+}                                      						
+```
+
+Optional **Named Module** entries (`Module_Name_1`, `Module_Name_2` etc.) may include references to *any* component they contain, including customComponents:
+
+```
+{
+  "Data": true,
+  "Markup": true,
+  "Styles": true
+  "customComponent": true
 }                                      						
 ```
 
