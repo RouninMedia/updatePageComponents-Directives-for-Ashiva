@@ -43,14 +43,14 @@ The first and second optional entries (`Main` & `Modules`) each take the followi
 }                                      						
 ```
 
-Optional **Named Module** entries (`Module_Name_1`, `Module_Name_2` etc.) may include references to *any* component they contain, including customComponents:
+**Named Module** entries (`Module_Name_1`, `Module_Name_2` etc.), also optional, may include references to *any* component they contain, including customComponents:
 
 ```
 {
   "Data": true,
   "Markup": true,
   "Styles": true
-  "customComponent": true
+  "customComponent_1": true
 }                                      						
 ```
 
